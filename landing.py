@@ -60,7 +60,7 @@ class LoginPage(ctk.CTk):
             conn = psycopg2.connect(
                 dbname="student_management_system",
                 user="postgres",
-                password="seendo1303",
+                password="db_pass",
                 host="localhost",
                 port="5432"
             )
