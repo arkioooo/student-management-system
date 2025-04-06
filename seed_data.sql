@@ -1,3 +1,56 @@
+
+
+
+
+-- Drop tables if they exist (for re-runs)
+DROP TABLE IF EXISTS grades, enrollments, users, students, teachers, courses CASCADE;
+
+-- Create Students Table
+CREATE TABLE students (
+    reg_no VARCHAR(10) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    admission_year INT NOT NULL,
+    department VARCHAR(50) NOT NULL
+);
+
+-- Create Teachers Table
+CREATE TABLE teachers (
+    teacher_id VARCHAR(10) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- Create Courses Table
+CREATE TABLE courses (
+    course_id SERIAL PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    teacher_id VARCHAR(10) REFERENCES teachers(teacher_id) ON DELETE SET NULL
+);
+
+-- Create Enrollments Table (many-to-many between students and courses)
+CREATE TABLE enrollments (
+    enrollment_id SERIAL PRIMARY KEY,
+    reg_no VARCHAR(10) REFERENCES students(reg_no) ON DELETE CASCADE,
+    course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
+    UNIQUE (reg_no, course_id)
+);
+
+-- Create Grades Table
+CREATE TABLE grades (
+    grade_id SERIAL PRIMARY KEY,
+    reg_no VARCHAR(10) REFERENCES students(reg_no) ON DELETE CASCADE,
+    course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
+    grade CHAR(1) CHECK (grade IN ('A', 'B', 'C', 'D', 'F')),
+    UNIQUE (reg_no, course_id)
+);
+
+-- Create Users Table (for login)
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(10) CHECK (role IN ('student', 'teacher')) NOT NULL
+);
+
 -- Clear all existing data and reset IDs
 TRUNCATE grades, enrollments, users, students, teachers, courses RESTART IDENTITY CASCADE;
 
@@ -97,4 +150,4 @@ INSERT INTO users (username, password, role) VALUES
 ('T201', 'pass123', 'teacher'), ('T202', 'pass123', 'teacher'), ('T203', 'pass123', 'teacher'),
 ('T204', 'pass123', 'teacher'), ('T205', 'pass123', 'teacher'), ('T206', 'pass123', 'teacher'),
 ('T207', 'pass123', 'teacher'), ('T208', 'pass123', 'teacher'), ('T209', 'pass123', 'teacher'),
-('T210', 'pass123', 'teacher');
+('T210', 'pass123','teacher');

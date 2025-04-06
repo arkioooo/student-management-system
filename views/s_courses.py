@@ -1,7 +1,8 @@
-from customtkinter import CTkLabel
+from customtkinter import CTkLabel, CTkFrame
 from db import DatabaseManager
 
 def show_courses(parent, regno):
+    # Clear previous content
     for widget in parent.winfo_children():
         widget.destroy()
 
@@ -17,8 +18,22 @@ def show_courses(parent, regno):
         results = db.execute_query(query, (regno,), fetch=True)
 
         if results:
-            for course, teacher in results:
-                CTkLabel(parent, text=f"{course} - {teacher}", font=("Arial", 16)).pack(anchor="w", padx=20, pady=5)
+            # Title above the card
+            CTkLabel(parent, text="Enrolled Courses", font=("Arial", 22, "bold")).pack(pady=(30, 10))
+
+            # Card-style frame with transparent background
+            card = CTkFrame(parent, corner_radius=15, border_width=2, fg_color="transparent")
+            card.pack(pady=10, padx=40, fill="both", expand=False)
+
+            # Column headers
+            CTkLabel(card, text="Course Name", font=("Arial", 14, "bold")).grid(row=0, column=0, sticky="w", padx=20, pady=(10, 5))
+            CTkLabel(card, text="Instructor", font=("Arial", 14, "bold")).grid(row=0, column=1, sticky="w", padx=20, pady=(10, 5))
+
+            # Course entries
+            for i, (course, teacher) in enumerate(results, start=1):
+                CTkLabel(card, text=course, font=("Arial", 14)).grid(row=i, column=0, sticky="w", padx=20, pady=5)
+                CTkLabel(card, text=teacher, font=("Arial", 14)).grid(row=i, column=1, sticky="w", padx=20, pady=5)
+
         else:
             CTkLabel(parent, text="No enrolled courses found.", font=("Arial", 16)).pack(pady=20)
 

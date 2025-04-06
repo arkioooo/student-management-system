@@ -10,7 +10,7 @@ class LoginPage(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Login - Student Management System")
-        self.geometry("1000x1000")
+        self.geometry("1000x600")
         self.configure(fg_color="black")
 
         self.main_frame = ctk.CTkFrame(self, fg_color="black")
@@ -18,7 +18,7 @@ class LoginPage(ctk.CTk):
 
         self.logo_image = ctk.CTkImage(
             light_image=Image.open("logo.png"),
-            size=(510, 300)
+            size=(350, 130)
         )
 
         self.image_label = ctk.CTkLabel(self.main_frame, image=self.logo_image, text="")
@@ -57,7 +57,7 @@ class LoginPage(ctk.CTk):
             conn = psycopg2.connect(
                 dbname="university",
                 user="postgres",
-                password="admin@1234",
+                password="db_pass", # Replace with your DB password
                 host="localhost",
                 port="5432"
             )
