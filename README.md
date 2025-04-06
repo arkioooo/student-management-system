@@ -75,14 +75,3 @@ python landing.py
 - `seed_data.sql`: SQL script with initial data for seeding the database.
 - `seed_runner.py`: Script to execute the `seed_data.sql` file.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
----
-
-*Note: This README is based on the provided project structure and may require adjustments to align with the actual implementation.* 
